@@ -8,11 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         tailwind.config = {
-            theme: {
-                extend: {
-                    colors: { ebricRed: '#E30613' }
-                }
-            }
+            theme: { extend: { colors: { ebricRed: '#E30613' } } }
         }
         const SUPABASE_URL = "https://ilsgmpincsxvhhlyzydq.supabase.co";
         const SUPABASE_KEY = "sb_publishable_GMcaHz-mHuB5oItupA6hqg_Vpf80HU6";
@@ -26,111 +22,117 @@
             <div class="flex items-center gap-3">
                 <img src="logo.png" alt="EBRIC" class="h-10 sm:h-12">
                 <div class="border-l-2 border-ebricRed pl-3">
-                    <h1 class="text-lg sm:text-xl font-black text-gray-800 uppercase tracking-tighter leading-none">Painel de Senhas</h1>
-                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">EBRIC Engenharia</p>
+                    <h1 class="text-lg sm:text-xl font-black text-gray-800 uppercase tracking-tighter">Gerenciador EBRIC</h1>
                 </div>
             </div>
-            <span class="text-[10px] font-bold text-ebricRed bg-red-50 px-4 py-1.5 rounded-full uppercase border border-red-100">Sistema Interno MS7</span>
+            <span class="text-[10px] font-bold text-ebricRed bg-red-50 px-4 py-1.5 rounded-full uppercase border border-red-100">Proteção MS7TECH</span>
         </div>
     </header>
 
-    <main class="max-w-6xl mx-auto p-4 sm:p-8 grid grid-cols-1 lg:grid-cols-3 gap-8 sm:gap-12">
+    <main class="max-w-6xl mx-auto p-4 sm:p-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
         
         <div class="lg:col-span-1">
-            <div class="bg-white p-6 sm:p-8 rounded-[2.5rem] shadow-xl border border-gray-100 sticky top-28">
+            <div class="bg-white p-6 rounded-[2.5rem] shadow-xl border border-gray-100 sticky top-28">
                 <h2 class="text-gray-700 font-bold mb-6 flex items-center gap-2 uppercase text-sm tracking-widest">
-                    <span class="bg-ebricRed text-white w-6 h-6 flex items-center justify-center rounded-full text-xs">+</span> 
-                    Novo Registro
+                    <span class="bg-ebricRed text-white w-6 h-6 flex items-center justify-center rounded-full text-xs">+</span> Novo Registro
                 </h2>
-                
                 <form id="formSenha" class="space-y-4">
-                    <div>
-                        <label class="text-[10px] font-black text-gray-400 uppercase ml-2 mb-1 block">Tipo de Acesso</label>
-                        <select id="tipo_site" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl outline-none focus:ring-2 focus:ring-ebricRed appearance-none cursor-pointer">
-                            <option value="Site">🌐 Site / Web</option>
-                            <option value="Sistema">🖥️ Sistema Interno</option>
-                            <option value="Link">🔗 Link Direto</option>
-                            <option value="E-mail">📧 E-mail Corporativo</option>
-                            <option value="Outros">⚙️ Outros</option>
-                        </select>
-                    </div>
-
-                    <input type="text" id="nome_site" placeholder="Nome (Ex: Gmail, Ebric Cloud...)" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl outline-none focus:ring-2 focus:ring-ebricRed transition-all" required>
-                    <input type="email" id="email" placeholder="Login / Usuário" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl outline-none focus:ring-2 focus:ring-ebricRed transition-all" required>
-                    <input type="text" id="senha" placeholder="Senha" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl outline-none focus:ring-2 focus:ring-ebricRed transition-all" required>
-                    
-                    <button type="submit" id="btnSalvar" class="w-full bg-ebricRed text-white font-black py-4 rounded-2xl hover:bg-red-700 shadow-lg shadow-red-100 transition-all active:scale-95 flex justify-center items-center">
-                        SALVAR ACESSO
-                    </button>
+                    <select id="tipo_site" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl outline-none focus:ring-2 focus:ring-ebricRed appearance-none cursor-pointer">
+                        <option value="SITE">🌐 Site / Web</option>
+                        <option value="SISTEMA">🖥️ Sistema Interno</option>
+                        <option value="LINK">🔗 Link Direto</option>
+                        <option value="EMAIL">📧 E-mail Corporativo</option>
+                    </select>
+                    <input type="text" id="nome_site" placeholder="Nome do Serviço" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl outline-none" required>
+                    <input type="email" id="email" placeholder="Login" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl outline-none" required>
+                    <input type="text" id="senha" placeholder="Senha" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl outline-none" required>
+                    <button type="submit" id="btnSalvar" class="w-full bg-ebricRed text-white font-black py-4 rounded-2xl hover:bg-red-700 transition-all active:scale-95">SALVAR ACESSO</button>
                 </form>
             </div>
         </div>
 
-        <div class="lg:col-span-2 space-y-4" id="listaAcessos">
+        <div class="lg:col-span-2 space-y-8" id="listaAcessos">
+            <div id="gateSessao" class="bg-white p-12 rounded-[2.5rem] border-2 border-dashed border-gray-200 text-center">
+                <div class="mb-6 text-4xl">🔐</div>
+                <h2 class="text-gray-800 font-black uppercase text-sm mb-4 tracking-widest">Painel Protegido</h2>
+                <p class="text-gray-400 text-xs mb-8">Clique abaixo para validar sua identidade e ver os registros.</p>
+                <button onclick="acessarPainel()" class="bg-gray-900 text-white px-8 py-4 rounded-2xl font-black text-xs hover:bg-ebricRed transition-all shadow-xl uppercase tracking-widest">
+                    Acessar Painel
+                </button>
             </div>
+            <div id="containerDados" class="hidden space-y-10">
+                </div>
+        </div>
     </main>
-
-    <footer class="text-center p-10 text-gray-400 text-[10px] font-bold uppercase tracking-[0.3em]">
-        © 2026 EBRIC ENGENHARIA | MS7TECH INFRAESTRUTURA
-    </footer>
 
     <script>
         const form = document.getElementById('formSenha');
-        const lista = document.getElementById('listaAcessos');
+        const container = document.getElementById('containerDados');
+        const gate = document.getElementById('gateSessao');
+
+        function acessarPainel() {
+            const senha = prompt("Digite a senha de acesso:");
+            if (senha === "8400") {
+                gate.classList.add('hidden');
+                container.classList.remove('hidden');
+                carregarAcessos();
+            } else {
+                alert("Senha incorreta!");
+            }
+        }
 
         async function carregarAcessos() {
-            lista.innerHTML = `<div class="p-20 text-center text-gray-300 font-bold uppercase text-xs animate-pulse tracking-widest">Sincronizando Banco...</div>`;
+            container.innerHTML = `<div class="p-10 text-center text-gray-400 font-bold animate-pulse text-xs tracking-widest">CARREGANDO DADOS...</div>`;
             
             const { data, error } = await supabaseClient.from('acessos').select('*').order('criado_em', { ascending: false });
 
-            if (data.length === 0) {
-                lista.innerHTML = `<div class="bg-white p-20 rounded-[2.5rem] border-2 border-dashed border-gray-100 text-center text-gray-400 italic">Nenhum registro encontrado.</div>`;
-                return;
-            }
+            if (data && data.length > 0) {
+                // Agrupar por tipo (usando o campo link_site que estamos usando para o tipo)
+                const grupos = data.reduce((acc, obj) => {
+                    const key = obj.link_site || 'OUTROS';
+                    if (!acc[key]) acc[key] = [];
+                    acc[key].push(obj);
+                    return acc;
+                }, {});
 
-            lista.innerHTML = data.map(item => `
-                <div class="bg-white p-5 sm:p-7 rounded-[2rem] shadow-sm border border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:shadow-md transition-all group">
-                    <div class="flex-1">
-                        <div class="flex items-center gap-2 mb-1">
-                            <span class="text-[9px] font-black bg-gray-100 text-gray-500 px-2 py-0.5 rounded uppercase tracking-tighter">${item.link_site || 'ACESSO'}</span>
-                            <h3 class="font-black text-gray-900 uppercase text-sm tracking-tight group-hover:text-ebricRed transition-colors">${item.nome_site}</h3>
-                        </div>
-                        <p class="text-gray-500 text-xs font-medium lowercase tracking-wide">${item.email_login}</p>
+                container.innerHTML = Object.keys(grupos).map(categoria => `
+                    <div class="space-y-4">
+                        <h2 class="text-[10px] font-black text-ebricRed bg-red-50 w-fit px-4 py-1 rounded-full tracking-[0.2em] mb-4">${categoria}</h2>
+                        ${grupos[categoria].map(item => `
+                            <div class="bg-white p-5 rounded-[2rem] shadow-sm border border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-4 hover:shadow-md transition-all">
+                                <div class="flex-1 w-full sm:w-auto">
+                                    <h3 class="font-black text-gray-900 uppercase text-sm">${item.nome_site}</h3>
+                                    <p class="text-gray-400 text-xs font-medium lowercase tracking-wide">${item.email_login}</p>
+                                </div>
+                                <div class="bg-gray-50 px-5 py-3 rounded-2xl border border-gray-100 w-full sm:w-auto flex justify-between items-center gap-4">
+                                    <span class="text-[8px] font-black text-gray-300 uppercase tracking-widest">Senha</span>
+                                    <span class="font-mono text-ebricRed font-black text-lg select-all">${item.senha_acesso}</span>
+                                </div>
+                            </div>
+                        `).join('')}
                     </div>
-                    <div class="w-full sm:w-auto flex flex-col items-end gap-1">
-                        <div class="bg-gray-50 px-5 py-3 rounded-2xl border border-gray-100 w-full sm:min-w-[180px] flex justify-between items-center">
-                            <span class="text-[8px] font-black text-gray-300 uppercase tracking-widest">SENHA</span>
-                            <span class="font-mono text-ebricRed font-black text-lg select-all">${item.senha_acesso}</span>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
+                `).join('');
+            }
         }
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('btnSalvar');
-            btn.innerHTML = `<span class="animate-spin mr-2 italic">◌</span> SALVANDO...`;
-            btn.disabled = true;
+            btn.innerText = "SALVANDO..."; btn.disabled = true;
 
-            const dados = {
+            const { error } = await supabaseClient.from('acessos').insert([{
                 nome_site: document.getElementById('nome_site').value,
                 email_login: document.getElementById('email_login').value,
                 senha_acesso: document.getElementById('senha_acesso').value,
-                link_site: document.getElementById('tipo_site').value // Salvando o "Tipo" aqui para o drowpdown
-            };
-
-            const { error } = await supabaseClient.from('acessos').insert([dados]);
+                link_site: document.getElementById('tipo_site').value
+            }]);
 
             if (!error) {
                 form.reset();
-                carregarAcessos();
+                if (!container.classList.contains('hidden')) carregarAcessos();
             }
-            btn.innerHTML = `SALVAR ACESSO`;
-            btn.disabled = false;
+            btn.innerText = "SALVAR ACESSO"; btn.disabled = false;
         });
-
-        carregarAcessos();
     </script>
 </body>
 </html>
