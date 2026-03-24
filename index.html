@@ -14,95 +14,82 @@
         const SUPABASE_KEY = "sb_publishable_GMcaHz-mHuB5oItupA6hqg_Vpf80HU6";
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     </script>
-    <style>
-        .fade-in { animation: fadeIn 0.4s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    </style>
 </head>
-<body class="bg-gray-50 min-h-screen font-sans overflow-x-hidden">
+<body class="bg-gray-50 min-h-screen font-sans">
 
-    <div id="telaLogin" class="h-screen w-full flex items-center justify-center p-6 fade-in">
-        <div class="bg-white p-10 rounded-[3rem] shadow-2xl border border-gray-100 text-center max-w-md w-full">
-            <img src="logo.png" alt="EBRIC" class="h-16 mx-auto mb-6">
-            <h2 class="text-gray-800 font-black uppercase text-xs mb-8 tracking-[0.3em] border-b pb-4">Acesso Restrito</h2>
-            <div class="space-y-4">
-                <input type="password" id="inputSenha" placeholder="Senha Mestra" 
-                    class="w-full p-5 bg-gray-50 border border-gray-200 rounded-2xl text-center font-black tracking-[0.5em] outline-none focus:ring-2 focus:ring-ebricRed transition-all">
-                <button onclick="acessarPainel()" class="w-full bg-ebricRed text-white p-5 rounded-2xl font-black uppercase text-xs tracking-widest shadow-xl shadow-red-100 hover:bg-red-700 transition-all active:scale-95">
-                    Entrar no Painel
-                </button>
+    <header class="bg-white border-b-4 border-ebricRed shadow-md p-4 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <img src="logo.png" alt="EBRIC" class="h-10 sm:h-12">
+                <div class="border-l-2 border-ebricRed pl-3">
+                    <h1 class="text-lg sm:text-xl font-black text-gray-800 uppercase tracking-tighter">Gerenciador EBRIC</h1>
+                </div>
+            </div>
+            <span class="text-[10px] font-bold text-ebricRed bg-red-50 px-4 py-1.5 rounded-full uppercase border border-red-100">Proteção MS7TECH</span>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto p-4 sm:p-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <div class="lg:col-span-1">
+            <div class="bg-white p-6 rounded-[2.5rem] shadow-xl border border-gray-100 sticky top-28">
+                <h2 class="text-gray-700 font-bold mb-6 flex items-center gap-2 uppercase text-sm tracking-widest">
+                    <span class="bg-ebricRed text-white w-6 h-6 flex items-center justify-center rounded-full text-xs">+</span> Novo Registro
+                </h2>
+                <form id="formSenha" class="space-y-4">
+                    <select id="tipo_site" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl outline-none focus:ring-2 focus:ring-ebricRed appearance-none cursor-pointer">
+                        <option value="SITE">🌐 Site / Web</option>
+                        <option value="SISTEMA">🖥️ Sistema Interno</option>
+                        <option value="LINK">🔗 Link Direto</option>
+                        <option value="EMAIL">📧 E-mail Corporativo</option>
+                    </select>
+                    <input type="text" id="nome_site" placeholder="Nome do Serviço" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl outline-none" required>
+                    <input type="email" id="email" placeholder="Login" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl outline-none" required>
+                    <input type="text" id="senha" placeholder="Senha" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl outline-none" required>
+                    <button type="submit" id="btnSalvar" class="w-full bg-ebricRed text-white font-black py-4 rounded-2xl hover:bg-red-700 transition-all active:scale-95">SALVAR ACESSO</button>
+                </form>
             </div>
         </div>
-    </div>
 
-    <div id="conteudoPainel" class="hidden fade-in">
-        <header class="bg-white border-b-4 border-ebricRed shadow-md p-4 sticky top-0 z-50">
-            <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
-                <div class="flex items-center gap-3">
-                    <img src="logo.png" alt="EBRIC" class="h-10 sm:h-12">
-                    <div class="border-l-2 border-ebricRed pl-3">
-                        <h1 class="text-lg sm:text-xl font-black text-gray-800 uppercase tracking-tighter">Gerenciador EBRIC</h1>
-                    </div>
-                </div>
-                <div class="flex items-center gap-4">
-                    <span class="text-[10px] font-bold text-ebricRed bg-red-50 px-4 py-1.5 rounded-full uppercase border border-red-100">Proteção MS7TECH</span>
-                    <button onclick="location.reload()" class="text-gray-400 hover:text-ebricRed text-xs font-bold uppercase">Sair</button>
-                </div>
-            </div>
-        </header>
-
-        <main class="max-w-6xl mx-auto p-4 sm:p-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div class="lg:col-span-1">
-                <div class="bg-white p-6 rounded-[2.5rem] shadow-xl border border-gray-100 sticky top-28">
-                    <h2 class="text-gray-700 font-bold mb-6 flex items-center gap-2 uppercase text-sm tracking-widest">
-                        <span class="bg-ebricRed text-white w-6 h-6 flex items-center justify-center rounded-full text-xs">+</span> Novo Registro
-                    </h2>
-                    <form id="formSenha" class="space-y-4">
-                        <select id="tipo_site" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl outline-none focus:ring-2 focus:ring-ebricRed appearance-none cursor-pointer">
-                            <option value="SITE">🌐 Site / Web</option>
-                            <option value="SISTEMA">🖥️ Sistema Interno</option>
-                            <option value="LINK">🔗 Link Direto</option>
-                            <option value="EMAIL">📧 E-mail Corporativo</option>
-                        </select>
-                        <input type="text" id="nome_site" placeholder="Nome do Serviço" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl outline-none" required>
-                        <input type="email" id="email" placeholder="Login" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl outline-none" required>
-                        <input type="text" id="senha" placeholder="Senha" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl outline-none" required>
-                        <button type="submit" id="btnSalvar" class="w-full bg-ebricRed text-white font-black py-4 rounded-2xl hover:bg-red-700 transition-all active:scale-95 uppercase text-xs">SALVAR ACESSO</button>
-                    </form>
+        <div class="lg:col-span-2 space-y-8" id="listaAcessos">
+            
+            <div id="gateSessao" class="bg-white p-12 rounded-[2.5rem] border-2 border-dashed border-gray-200 text-center">
+                <div class="mb-6 text-4xl">🔐</div>
+                <h2 class="text-gray-800 font-black uppercase text-sm mb-4 tracking-widest">Painel Protegido</h2>
+                <p class="text-gray-400 text-xs mb-8">Digite a senha para ver a central de logins.</p>
+                
+                <div class="max-w-xs mx-auto space-y-4">
+                    <input type="password" id="passInput" placeholder="Senha Mestra" class="w-full p-4 bg-gray-50 border rounded-2xl text-center outline-none focus:ring-2 focus:ring-ebricRed">
+                    <button onclick="acessarPainel()" class="w-full bg-gray-900 text-white px-8 py-4 rounded-2xl font-black text-xs hover:bg-ebricRed transition-all shadow-xl uppercase tracking-widest">
+                        Acessar Painel
+                    </button>
                 </div>
             </div>
 
-            <div class="lg:col-span-2 space-y-8" id="containerDados">
+            <div id="containerDados" class="hidden space-y-10">
                 </div>
-        </main>
-    </div>
+        </div>
+    </main>
 
     <script>
-        const loginScreen = document.getElementById('telaLogin');
-        const painelScreen = document.getElementById('conteudoPainel');
-        const container = document.getElementById('containerDados');
         const form = document.getElementById('formSenha');
+        const container = document.getElementById('containerDados');
+        const gate = document.getElementById('gateSessao');
 
-        // Função de Redirecionamento Interno
         function acessarPainel() {
-            const senha = document.getElementById('inputSenha').value;
+            const senha = document.getElementById('passInput').value;
             if (senha === "8400") {
-                loginScreen.classList.add('hidden');
-                painelScreen.classList.remove('hidden');
+                gate.classList.add('hidden');
+                container.classList.remove('hidden');
                 carregarAcessos();
             } else {
                 alert("Senha incorreta!");
-                document.getElementById('inputSenha').value = "";
+                document.getElementById('passInput').value = "";
             }
         }
 
-        // Enter no campo de senha
-        document.getElementById('inputSenha').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') acessarPainel();
-        });
-
         async function carregarAcessos() {
-            container.innerHTML = `<div class="p-10 text-center text-gray-400 font-bold animate-pulse text-xs tracking-widest uppercase">Sincronizando Banco...</div>`;
+            container.innerHTML = `<div class="p-10 text-center text-gray-400 font-bold animate-pulse text-xs tracking-widest uppercase">Sincronizando Banco EBRIC...</div>`;
             
             const { data, error } = await supabaseClient.from('acessos').select('*').order('criado_em', { ascending: false });
 
@@ -117,22 +104,24 @@
                 container.innerHTML = Object.keys(grupos).map(categoria => `
                     <div class="space-y-4">
                         <h2 class="text-[10px] font-black text-ebricRed bg-red-50 w-fit px-4 py-1 rounded-full tracking-[0.2em] mb-4">${categoria}</h2>
-                        ${grupos[categoria].map(item => `
-                            <div class="bg-white p-5 rounded-[2rem] shadow-sm border border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-4 hover:shadow-md transition-all group">
-                                <div class="flex-1 w-full sm:w-auto">
-                                    <h3 class="font-black text-gray-900 uppercase text-sm">${item.nome_site}</h3>
-                                    <p class="text-gray-400 text-xs font-medium lowercase tracking-wide">${item.email_login}</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            ${grupos[categoria].map(item => `
+                                <div class="bg-white p-5 rounded-[2rem] shadow-sm border border-gray-100 flex flex-col justify-between gap-4 hover:shadow-md transition-all group">
+                                    <div class="flex-1">
+                                        <h3 class="font-black text-gray-900 uppercase text-sm">${item.nome_site}</h3>
+                                        <p class="text-gray-400 text-xs font-medium lowercase tracking-wide truncate">${item.email_login}</p>
+                                    </div>
+                                    <div class="bg-gray-50 px-5 py-3 rounded-2xl border border-gray-100 flex justify-between items-center gap-4 group-hover:bg-red-50">
+                                        <span class="font-mono text-ebricRed font-black text-lg select-all">${item.senha_acesso}</span>
+                                        <button onclick="navigator.clipboard.writeText('${item.senha_acesso}')" class="text-gray-300 hover:text-ebricRed">📋</button>
+                                    </div>
                                 </div>
-                                <div class="bg-gray-50 px-5 py-3 rounded-2xl border border-gray-100 w-full sm:w-auto flex justify-between items-center gap-4 group-hover:bg-red-50 transition-colors">
-                                    <span class="font-mono text-ebricRed font-black text-lg select-all">${item.senha_acesso}</span>
-                                    <button onclick="navigator.clipboard.writeText('${item.senha_acesso}')" class="text-gray-300 hover:text-ebricRed">📋</button>
-                                </div>
-                            </div>
-                        `).join('')}
+                            `).join('')}
+                        </div>
                     </div>
                 `).join('');
             } else {
-                container.innerHTML = `<p class="text-center py-20 text-gray-400 italic">Nenhum registro encontrado.</p>`;
+                container.innerHTML = `<p class="text-center py-20 text-gray-400 italic uppercase text-[10px]">Nenhum login no banco.</p>`;
             }
         }
 
@@ -150,7 +139,7 @@
 
             if (!error) {
                 form.reset();
-                carregarAcessos();
+                if (!container.classList.contains('hidden')) carregarAcessos();
             }
             btn.innerText = "SALVAR ACESSO"; btn.disabled = false;
         });
