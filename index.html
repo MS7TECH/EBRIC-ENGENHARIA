@@ -46,7 +46,7 @@
                     <input type="text" id="nome_site" placeholder="Nome do Serviço" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl outline-none" required>
                     <input type="email" id="email" placeholder="Login" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl outline-none" required>
                     <input type="text" id="senha" placeholder="Senha" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl outline-none" required>
-                    <button type="submit" id="btnSalvar" class="w-full bg-ebricRed text-white font-black py-4 rounded-2xl hover:bg-red-700 transition-all active:scale-95">SALVAR ACESSO</button>
+                    <button type="submit" id="btnSalvar" class="w-full bg-ebricRed text-white font-black py-4 rounded-2xl hover:bg-red-700 transition-all active:scale-95 uppercase text-xs">SALVAR ACESSO</button>
                 </form>
             </div>
         </div>
@@ -56,14 +56,10 @@
             <div id="gateSessao" class="bg-white p-12 rounded-[2.5rem] border-2 border-dashed border-gray-200 text-center">
                 <div class="mb-6 text-4xl">🔐</div>
                 <h2 class="text-gray-800 font-black uppercase text-sm mb-4 tracking-widest">Painel Protegido</h2>
-                <p class="text-gray-400 text-xs mb-8">Digite a senha para ver a central de logins.</p>
-                
-                <div class="max-w-xs mx-auto space-y-4">
-                    <input type="password" id="passInput" placeholder="Senha Mestra" class="w-full p-4 bg-gray-50 border rounded-2xl text-center outline-none focus:ring-2 focus:ring-ebricRed">
-                    <button onclick="acessarPainel()" class="w-full bg-gray-900 text-white px-8 py-4 rounded-2xl font-black text-xs hover:bg-ebricRed transition-all shadow-xl uppercase tracking-widest">
-                        Acessar Painel
-                    </button>
-                </div>
+                <p class="text-gray-400 text-xs mb-8">Clique abaixo para validar sua identidade e ver os registros.</p>
+                <button onclick="acessarPainel()" class="bg-gray-900 text-white px-8 py-4 rounded-2xl font-black text-xs hover:bg-ebricRed transition-all shadow-xl uppercase tracking-widest">
+                    Acessar Painel
+                </button>
             </div>
 
             <div id="containerDados" class="hidden space-y-10">
@@ -76,20 +72,20 @@
         const container = document.getElementById('containerDados');
         const gate = document.getElementById('gateSessao');
 
+        // Função com o Prompt Nativo
         function acessarPainel() {
-            const senha = document.getElementById('passInput').value;
+            const senha = prompt("Digite a senha de acesso:");
             if (senha === "8400") {
                 gate.classList.add('hidden');
                 container.classList.remove('hidden');
                 carregarAcessos();
-            } else {
+            } else if (senha !== null) {
                 alert("Senha incorreta!");
-                document.getElementById('passInput').value = "";
             }
         }
 
         async function carregarAcessos() {
-            container.innerHTML = `<div class="p-10 text-center text-gray-400 font-bold animate-pulse text-xs tracking-widest uppercase">Sincronizando Banco EBRIC...</div>`;
+            container.innerHTML = `<div class="p-10 text-center text-gray-400 font-bold animate-pulse text-xs tracking-widest uppercase">Carregando Painel EBRIC...</div>`;
             
             const { data, error } = await supabaseClient.from('acessos').select('*').order('criado_em', { ascending: false });
 
@@ -108,10 +104,10 @@
                             ${grupos[categoria].map(item => `
                                 <div class="bg-white p-5 rounded-[2rem] shadow-sm border border-gray-100 flex flex-col justify-between gap-4 hover:shadow-md transition-all group">
                                     <div class="flex-1">
-                                        <h3 class="font-black text-gray-900 uppercase text-sm">${item.nome_site}</h3>
-                                        <p class="text-gray-400 text-xs font-medium lowercase tracking-wide truncate">${item.email_login}</p>
+                                        <h3 class="font-black text-gray-900 uppercase text-sm tracking-tight">${item.nome_site}</h3>
+                                        <p class="text-gray-400 text-[11px] font-medium lowercase truncate">${item.email_login}</p>
                                     </div>
-                                    <div class="bg-gray-50 px-5 py-3 rounded-2xl border border-gray-100 flex justify-between items-center gap-4 group-hover:bg-red-50">
+                                    <div class="bg-gray-50 px-5 py-3 rounded-2xl border border-gray-100 flex justify-between items-center group-hover:bg-red-50 transition-colors">
                                         <span class="font-mono text-ebricRed font-black text-lg select-all">${item.senha_acesso}</span>
                                         <button onclick="navigator.clipboard.writeText('${item.senha_acesso}')" class="text-gray-300 hover:text-ebricRed">📋</button>
                                     </div>
@@ -121,7 +117,7 @@
                     </div>
                 `).join('');
             } else {
-                container.innerHTML = `<p class="text-center py-20 text-gray-400 italic uppercase text-[10px]">Nenhum login no banco.</p>`;
+                container.innerHTML = `<p class="text-center py-20 text-gray-400 italic">Banco de dados vazio.</p>`;
             }
         }
 
@@ -132,8 +128,8 @@
 
             const { error } = await supabaseClient.from('acessos').insert([{
                 nome_site: document.getElementById('nome_site').value,
-                email_login: document.getElementById('email_login').value,
-                senha_acesso: document.getElementById('senha_acesso').value,
+                email_login: document.getElementById('email').value,
+                senha_acesso: document.getElementById('senha').value,
                 link_site: document.getElementById('tipo_site').value
             }]);
 
